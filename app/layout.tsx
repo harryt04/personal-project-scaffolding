@@ -14,9 +14,9 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: 'TrimTech',
+  title: 'Scaffolding',
   description:
-    'TrimTech is a purpose-built barbershop and salon booking and payment collection app. Built by barbers for barbers.',
+    'Scaffolding is a purpose-built barbershop and salon booking and payment collection app. Built by barbers for barbers.',
 }
 
 export default function RootLayout({

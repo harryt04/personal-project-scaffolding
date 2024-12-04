@@ -3,11 +3,11 @@ import { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://trimtech.app',
+      url: 'https://scaffolding.app',
       lastModified: new Date(),
     },
     {
-      url: 'https://trimtech.app/login',
+      url: 'https://scaffolding.app/login',
       lastModified: new Date(),
     },
   ]
