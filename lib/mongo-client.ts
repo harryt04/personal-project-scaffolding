@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-const defaultConnectionString = '' // put your MONGO_CONNECTION_STRING here when running gulp create-indexes
+const defaultConnectionString = '' // put your MONGO_CONNECTION_STRING here when running npm run create-indexes
 
 const MONGO_CONNECTION_STRING =
   process.env.MONGO_CONNECTION_STRING ?? defaultConnectionString
