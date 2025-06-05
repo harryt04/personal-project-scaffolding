@@ -31,7 +31,7 @@
     "mongodb": "^6.14.2",
     "next": "^15.3.3",
     "next-themes": "^0.3.0",
-    "posthog-js": "^1.249.0",
+    "posthog-js": "^1.249.4",
     "posthog-node": "^4.18.0",
     "react": "^18",
     "react-day-picker": "^8.10.1",
