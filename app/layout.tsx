@@ -1,4 +1,3 @@
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 
@@ -25,26 +24,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ClerkProvider>
-        <PostHogProvider>
-          <body
-            suppressHydrationWarning={true}
-            className={cn(
-              'min-h-screen bg-background font-sans antialiased',
-              fontSans.variable,
-            )}
+      <PostHogProvider>
+        <body
+          suppressHydrationWarning={true}
+          className={cn(
+            'min-h-screen bg-background font-sans antialiased',
+            fontSans.variable,
+          )}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-            </ThemeProvider>
-          </body>
-        </PostHogProvider>
-      </ClerkProvider>
+            {children}
+          </ThemeProvider>
+        </body>
+      </PostHogProvider>
     </html>
   )
 }

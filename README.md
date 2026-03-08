@@ -5,7 +5,7 @@ This represents my blank slate for a new personal project, complete with my foll
 - TypeScript
 - Tailwind CSS
 - PostHog
-- Clerk
+- BetterAuth
 - MongoDB
 
 # Creating indexes for your own mongodb instance
