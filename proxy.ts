@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // NOTE: This does NOT cryptographically validate the session.
 // Always validate the session server-side inside protected pages/routes
 // via auth.api.getSession() before serving sensitive data.
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request)
 
   // Redirect unauthenticated users away from protected routes
