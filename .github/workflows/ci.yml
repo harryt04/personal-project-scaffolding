@@ -21,5 +21,5 @@ jobs:
           BETTER_AUTH_SECRET: ci-secret-min-32-chars-long!!!!!!
           BETTER_AUTH_URL: http://localhost:3000
           MONGO_CONNECTION_STRING: mongodb://localhost:27017/scaffolding-test
-          NEXT_PUBLIC_POSTHOG_KEY: ''
+          NEXT_PUBLIC_POSTHOG_KEY: dummy
           NEXT_PUBLIC_POSTHOG_HOST: ''
