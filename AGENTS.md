@@ -1,5 +1,8 @@
 # AGENTS.md
 
+> **Template status:** Legacy **TW3 + default shadcn** seed. New greenfield apps should prefer **TW4 + new-york** patterns (see pantry-iq / mail-flow) until this template is upgraded. Do not full-migrate mid-feature without a dedicated project.
+
+
 Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
@@ -160,3 +163,8 @@ NEXT_PUBLIC_POSTHOG_HOST=
 - Define collection types in `models/`; register collection names in
   `mongoDBConfig.collections` inside `lib/mongo-client.ts`
 - Run `npm run create-indexes` after adding new indexes in `lib/mongo-utils.ts`
+
+## PR gate
+
+`npm run ci` (lint + build). GitHub Actions runs this on PRs to master.
+

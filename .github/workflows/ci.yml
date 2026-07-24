@@ -1,19 +1,25 @@
 name: CI
 
 on:
-  push:
-    branches: [master, main]
   pull_request:
-    branches: [master, main]
+    branches: [master]
+  push:
+    branches: [master]
 
 jobs:
-  ci:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'npm'
+          cache: npm
       - run: npm ci
       - run: npm run ci
+        env:
+          BETTER_AUTH_SECRET: ci-secret-min-32-chars-long!!!!!!
+          BETTER_AUTH_URL: http://localhost:3000
+          MONGO_CONNECTION_STRING: mongodb://localhost:27017/scaffolding-test
+          NEXT_PUBLIC_POSTHOG_KEY: ''
+          NEXT_PUBLIC_POSTHOG_HOST: ''
