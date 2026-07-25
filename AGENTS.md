@@ -1,5 +1,8 @@
 # AGENTS.md
 
+> **Template status:** Legacy **TW3 + default shadcn** seed. New greenfield apps should prefer **TW4 + new-york** patterns (see pantry-iq / mail-flow) until this template is upgraded. Do not full-migrate mid-feature without a dedicated project.
+
+
 Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
@@ -82,6 +85,9 @@ proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
   `@/components/lib/utils` incorrectly — fix those by hand if they appear)
 - `components.json` config: style `default`, base color `neutral`, CSS
   variables enabled, no prefix
+- Legacy default: Tailwind v3 + shadcn `default` style
+- For new apps prefer Tailwind v4 + new-york style (see pantry-iq, mail-flow)
+- NO full Tailwind v4 migration on existing scaffolds
 
 ## Code Style
 
@@ -157,3 +163,8 @@ NEXT_PUBLIC_POSTHOG_HOST=
 - Define collection types in `models/`; register collection names in
   `mongoDBConfig.collections` inside `lib/mongo-client.ts`
 - Run `npm run create-indexes` after adding new indexes in `lib/mongo-utils.ts`
+
+## PR gate
+
+`npm run ci` (lint + build). GitHub Actions runs this on PRs to master.
+
