@@ -1,0 +1,6 @@
+allowBuilds:
+  sharp: true
+  protobufjs: true
+  core-js: false
+  prisma: false
+  '@prisma/engines': false

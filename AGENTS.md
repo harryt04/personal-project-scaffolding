@@ -2,7 +2,6 @@
 
 > **Template status:** Legacy **TW3 + default shadcn** seed. New greenfield apps should prefer **TW4 + new-york** patterns (see pantry-iq / mail-flow) until this template is upgraded. Do not full-migrate mid-feature without a dedicated project.
 
-
 Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
@@ -14,12 +13,12 @@ driver, analytics via PostHog.
 ## Commands
 
 ```bash
-npm run dev          # start dev server (Turbopack)
-npm run build        # production build
-npm run lint         # ESLint (next/core-web-vitals)
-npm run prettify     # Prettier format entire project
-npx tsc --noEmit     # type-check without emitting
-npm run create-indexes  # create MongoDB indexes via Gulp
+pnpm run dev          # start dev server (Turbopack)
+pnpm run build        # production build
+pnpm run lint         # ESLint (next/core-web-vitals)
+pnpm run prettify     # Prettier format entire project
+pnpm exec tsc --noEmit     # type-check without emitting
+pnpm run create-indexes  # create MongoDB indexes via Gulp
 ```
 
 There is no test runner configured. Do not fabricate test commands.
@@ -78,7 +77,7 @@ proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
 
 ## shadcn/ui
 
-- Add components via CLI: `npx shadcn@latest add <component>`
+- Add components via CLI: `pnpm dlx shadcn@latest add <component>`
 - Do **not** manually edit files in `components/ui/` — regenerate via CLI
 - After adding a component, verify import paths reference `@/hooks/` and
   `@/lib/utils` (the CLI occasionally emits `@/components/hooks/` or
@@ -97,7 +96,7 @@ proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
 - Single quotes (`singleQuote: true`)
 - Trailing commas everywhere (`trailingComma: 'all'`)
 - Tailwind class sorting via `prettier-plugin-tailwindcss`
-- Run `npm run prettify` before committing
+- Run `pnpm run prettify` before committing
 
 ### TypeScript
 
@@ -162,9 +161,8 @@ NEXT_PUBLIC_POSTHOG_HOST=
 - Database name is `scaffolding-${NODE_ENV}` (e.g. `scaffolding-development`)
 - Define collection types in `models/`; register collection names in
   `mongoDBConfig.collections` inside `lib/mongo-client.ts`
-- Run `npm run create-indexes` after adding new indexes in `lib/mongo-utils.ts`
+- Run `pnpm run create-indexes` after adding new indexes in `lib/mongo-utils.ts`
 
 ## PR gate
 
-`npm run ci` (lint + build). GitHub Actions runs this on PRs to master.
-
+`pnpm run ci` (lint + build). GitHub Actions runs this on PRs to master.
