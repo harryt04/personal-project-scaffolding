@@ -17,8 +17,8 @@ pnpm run dev          # start dev server (Turbopack)
 pnpm run build        # production build
 pnpm run lint         # ESLint (next/core-web-vitals)
 pnpm run prettify     # Prettier format entire project
-pnpm exec tsc --noEmit     # type-check without emitting
-pnpm run create-indexes  # create MongoDB indexes via Gulp
+pnpm run typecheck    # generate route types and type-check without emitting
+pnpm run create-indexes  # create indexes for an explicitly selected NODE_ENV
 ```
 
 There is no test runner configured. Do not fabricate test commands.
@@ -148,7 +148,7 @@ Required in `.env.local` (see `.env.sample` for the template):
 BETTER_AUTH_SECRET=        # min 32 chars; generate: openssl rand -base64 32
 BETTER_AUTH_URL=http://localhost:3000
 MONGO_CONNECTION_STRING=   # standalone or Atlas URI
-NEXT_PUBLIC_POSTHOG_KEY=   # optional; PostHog is no-op if unset in dev
+NEXT_PUBLIC_POSTHOG_KEY=   # optional; browser PostHog is disabled if unset
 NEXT_PUBLIC_POSTHOG_HOST=
 ```
 
@@ -165,4 +165,7 @@ NEXT_PUBLIC_POSTHOG_HOST=
 
 ## PR gate
 
-`pnpm run ci` (lint + build). GitHub Actions runs this on PRs to master.
+`pnpm run ci` (lint + typecheck + build). GitHub Actions runs this on PRs to master.
+
+Index creation requires `NODE_ENV=development`, `test`, or `production` and
+loads `.env.local`; see README before running this database mutation.

@@ -1,8 +1,6 @@
 import { MongoClient } from 'mongodb'
-const defaultConnectionString = '' // put your MONGO_CONNECTION_STRING here when running npm run create-indexes
 
-const MONGO_CONNECTION_STRING =
-  process.env.MONGO_CONNECTION_STRING ?? defaultConnectionString
+const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING ?? ''
 
 if (!MONGO_CONNECTION_STRING) {
   throw new Error('MONGO_CONNECTION_STRING environment variable is not set.')
@@ -28,4 +26,10 @@ export const mongoDBConfig = {
   collections: {
     scaffoldingCollection: 'scaffoldingCollection',
   },
+}
+
+export async function closeMongoClient() {
+  await client?.close()
+  client = null
+  clientPromise = null
 }
