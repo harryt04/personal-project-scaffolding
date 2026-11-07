@@ -1,15 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { type ThemeProviderProps } from 'next-themes/dist/types'
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  const [mounted, setMounted] = useState(false)
+const subscribe = () => () => {}
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  )
 
   if (!mounted) {
     return <>{children}</>
