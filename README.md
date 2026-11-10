@@ -10,7 +10,7 @@ This represents my blank slate for a new personal project, complete with my foll
 
 ## First setup and verification
 
-Use Node.js 24 (`nvm use`) and the pnpm version pinned in `package.json`.
+Use Node.js 26.13.0 (`nvm use`) and the pnpm version pinned in `package.json`.
 
 1. Run `pnpm install --frozen-lockfile`.
 2. Copy `.env.sample` to `.env.local` and configure MongoDB, an auth secret,
@@ -47,14 +47,14 @@ validation command and is not run in CI.
 
 ## Package manager
 
-Use pnpm 11.24.0, pinned in `package.json`. Install it with
+Use pnpm 11.24.0, pinned in `package.json`. Corepack is not bundled with Node 26. Bootstrap pnpm explicitly with
 `npm install --global pnpm@11.24.0` if pnpm is not available.
 Run `pnpm install --frozen-lockfile` after cloning. Commit `pnpm-lock.yaml`
 when dependencies change; do not generate npm or Yarn lockfiles.
 
 ## Node.js runtime
 
-Use Node.js 24 for local development, validation, and deployment.
+Use Node.js 26.13.0 for local development, validation, and deployment.
 The runtime is declared in `package.json` and `.nvmrc`.
 
 Dependency build scripts are reviewed in `pnpm-workspace.yaml`. Preserve explicit
