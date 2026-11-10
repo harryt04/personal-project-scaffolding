@@ -3,12 +3,12 @@ import { cn } from '@/lib/utils'
 
 export default function Login() {
   return (
-    <div
+    <main
       className={cn(
         'align-center flex h-screen items-center justify-center bg-background',
       )}
     >
       <LoginCard />
-    </div>
+    </main>
   )
 }
