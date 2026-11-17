@@ -59,3 +59,10 @@ The runtime is declared in `package.json` and `.nvmrc`.
 
 Dependency build scripts are reviewed in `pnpm-workspace.yaml`. Preserve explicit
 allow/deny decisions; review new requests rather than enabling every script.
+
+## License
+
+Project code is available under the [MIT License](LICENSE). Generated shadcn/ui
+components and Next.js template assets retain their upstream notices in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Third-party dependencies are
+subject to their own licenses.
