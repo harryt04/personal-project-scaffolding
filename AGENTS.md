@@ -1,6 +1,5 @@
 # AGENTS.md
 
-
 Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
@@ -31,19 +30,21 @@ app/
     page.tsx         # home route (/)
   api/auth/[...all]/ # better-auth catch-all handler
   login/             # public auth page
-  layout.tsx         # root layout: fonts, ThemeProvider, PostHog
+  layout.tsx         # root layout: fonts, ThemeProvider, PostHog, AgentBridge
   globals.css        # Tailwind base + CSS custom properties
 components/
   custom/            # app-specific components
-  ui/                # styled UI SDK wrappers and layout components
+  ui/                # styled UI SDK wrappers, layout components, slot.tsx
 hooks/               # shared React hooks (e.g. use-mobile)
 lib/
+  agent-policy.ts    # deny-by-default allow policy for the UI SDK agent bridge
+  agent-policy.test.ts
   auth.ts            # better-auth server instance (MongoDB adapter)
   auth-client.ts     # better-auth React client
   mongo-client.ts    # MongoDB singleton
   utils.ts           # cn() helper
 models/              # MongoDB collection types (currently empty)
-providers/           # React context providers
+providers/           # React context providers, incl. agent-bridge.tsx
 proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
 ```
 
@@ -76,13 +77,74 @@ proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
 
 ## UI SDK
 
-UI SDK supplies unstyled controls with keyboard, focus and accessibility behavior and agent-readable state. The beta postdates model training data. Read `node_modules/@ui-sdk/react/docs/llms.txt` and `node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md` before touching components, then consult the installed component page. Both packages are exact-pinned together.
+Interactive components are built on [UI SDK](https://ui-sdk.dev):
+`@ui-sdk/react` and `@ui-sdk/core`, both exact-pinned to `0.1.0-beta.17`.
+Upgrade them together and keep them pinned. The beta postdates model training
+data, so read these before touching a component, then the installed page for
+the component you use:
 
-App code imports from `@/components/ui`. Add a wrapper there using the component entry, for example `@ui-sdk/react/menu`. Never run `shadcn add` or regenerate these wrappers, which would reintroduce Radix or Base UI. Use the existing Tailwind 4 theme, keep the UI SDK layer declaration first, and opt into global SDK styles only after checking links and overlay geometry. The SDK owns its slot names. Use separate app attributes for selectors and tests. Controlled inputs need `onValueChange`; use stable values for options and tab/panel pairs. Portal popups outside forms and check Escape and focus return.
+- `node_modules/@ui-sdk/react/docs/llms.txt`
+- `node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md`
+  (`npx skills@latest add vercel-labs/ui --skill ui-sdk`)
 
-The sidebar is a layout composition. It and React Hook Form retain Radix Slot for child composition, as does Button when rendering a link. Resizable retains react-resizable-panels for split-pane sizing. Theme icons remain on Radix Icons. Card, Skeleton and Typography are presentational. The starter keeps the toast hook and renderer as adapters to the SDK queue.
+Do not infer the API from Radix UI or Base UI. Neither is installed, and no
+file may import them.
 
-The root mounts `providers/agent-bridge.tsx` once. Review every new interactive control in `lib/agent-policy.ts` and add tests in `lib/agent-policy.test.ts`. Scope navigation and ordinary text edits by route and exact accessible name. Only register text fields that do not persist sensitive changes. Reads use the SDK snapshot and query tools. Unknown actions and confirmation-marked operations are denied. Mark sensitive values with `data-agent-secret` and sensitive actions with `data-agent-confirm`. Authentication, account or settings changes, payments and destructive actions require human interaction.
+### Components
+
+- App code imports from `@/components/ui`. Each interactive wrapper there
+  imports its UI SDK entry (for example `@ui-sdk/react/menu`) and keeps the
+  shadcn export names, props and Tailwind classes.
+- Never run `shadcn add` or regenerate an interactive wrapper: the shadcn CLI
+  has no UI SDK base and would bring Radix or Base UI back. Write the wrapper
+  by hand from the UI SDK docs. The CLI is fine for tokens and purely
+  presentational pieces.
+- `asChild` on a wrapper of a UI SDK part maps to the part's `render` prop.
+  Layout pieces with no UI SDK part (the sidebar, React Hook Form's
+  `FormControl`, and Button rendered as a link) use the local
+  `components/ui/slot.tsx`, built on UI SDK's `renderElement`. A Button
+  rendered as a link drops the button `type`.
+- Use `Button` from `@/components/ui/button` rather than a native `<button>`,
+  so agents can see and press it under the policy.
+- Card, Skeleton and Typography are presentational. The sidebar is a layout
+  composition of UI SDK parts (Button, Sheet, Tooltip, Separator, Input); its
+  rail is a pointer-only duplicate of the trigger and carries
+  `data-agent-hidden`. The toast hook and renderer are adapters to the UI SDK
+  toast queue. Resizable wraps `@ui-sdk/react/resizable`; arrow keys move a
+  handle 1% and Shift+arrow 10%.
+- Icons come from `lucide-react`.
+
+### Conventions
+
+- Keep the `@layer ui-sdk;` declaration first in `app/globals.css`. The
+  optional `@ui-sdk/core/web.css` restyles global links and dialog geometry;
+  import it into `layer(components)` only after checking both.
+- UI SDK owns its `data-slot` names and state attributes. Style with its
+  documented state attributes (`data-open`, `data-orientation` and so on) and
+  give your own CSS hooks and test selectors a separate attribute.
+- Controlled inputs need `onValueChange`, or agent edits never reach React
+  state. Give options and tab/panel pairs stable values.
+- Portal popups to the body, especially inside forms, and check Escape and
+  focus return for every popup.
+
+### Agent bridge
+
+`providers/agent-bridge.tsx` mounts `createAgent()` and `registerTools()` from
+`@ui-sdk/react/agent` once, from `app/layout.tsx`. Its `allow` policy is
+`lib/agent-policy.ts`, tested in `lib/agent-policy.test.ts` (`pnpm test`).
+The policy denies by default:
+
+- Navigation presses and ordinary text edits are allowed only when listed for
+  the route by exact accessible name. Register only text fields that do not
+  persist sensitive changes.
+- Unknown actions and any step carrying `data-agent-confirm` are denied.
+- Authentication, account or settings changes, payments, submissions and
+  destructive actions require a person: mark them `data-agent-confirm`.
+- Mark credentials and personal data `data-agent-secret`.
+
+Review every new interactive control against the policy and add a test for it.
+Local Chromium has no native WebMCP; test the bridge with a registration stub
+on `document.modelContext` and say so.
 
 ## Code Style
 
