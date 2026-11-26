@@ -6,7 +6,7 @@ Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
 
-Next.js 16 (App Router) + React 18 + TypeScript scaffold. Authentication via
+Next.js 16 (App Router) + React 19 + TypeScript scaffold. Authentication via
 better-auth, UI via shadcn/ui + Tailwind CSS, database via MongoDB native
 driver, analytics via PostHog.
 
