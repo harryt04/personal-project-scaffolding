@@ -66,7 +66,7 @@ function LoginCard() {
               type="text"
               placeholder="Your name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onValueChange={setName}
               required
             />
           </div>
@@ -79,7 +79,7 @@ function LoginCard() {
             type="email"
             placeholder="you@example.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onValueChange={setEmail}
             required
           />
         </div>
@@ -91,7 +91,7 @@ function LoginCard() {
             type="password"
             placeholder="••••••••"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onValueChange={setPassword}
             required
           />
         </div>

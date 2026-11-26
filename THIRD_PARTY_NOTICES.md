@@ -4,6 +4,7 @@ The generated shadcn/ui components include material from
 [shadcn/ui](https://github.com/shadcn-ui/ui), copyright (c) 2023 shadcn.
 The Next.js template assets include material from
 [Next.js](https://github.com/vercel/next.js), copyright (c) 2025 Vercel, Inc.
+The UI SDK wrappers adapt material from Tokei, copyright (c) 2025 Harrison Thomas.
 These materials are provided under the MIT License:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
