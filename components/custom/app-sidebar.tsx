@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { Button } from '@/components/ui/button'
 import { signOut } from '@/lib/auth-client'
 import { Home, LogOut, Settings } from 'lucide-react'
 import Link from 'next/link'
@@ -56,10 +57,17 @@ export function AppSidebar() {
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="sm"
+                      className="justify-start font-normal"
+                    >
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </Button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -71,7 +79,11 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleSignOut} tooltip="Sign out">
+            <SidebarMenuButton
+              data-agent-confirm="Sign out"
+              onClick={handleSignOut}
+              tooltip="Sign out"
+            >
               <LogOut />
               <span>Sign out</span>
             </SidebarMenuButton>

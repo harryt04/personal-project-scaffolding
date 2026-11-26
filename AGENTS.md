@@ -1,13 +1,12 @@
 # AGENTS.md
 
-> **Template status:** Legacy **TW3 + default shadcn** seed. New greenfield apps should prefer **TW4 + new-york** patterns (see pantry-iq / mail-flow) until this template is upgraded. Do not full-migrate mid-feature without a dedicated project.
 
 Guidance for agentic coding assistants working in this repository.
 
 ## Project Overview
 
-Next.js 16 (App Router) + React 18 + TypeScript scaffold. Authentication via
-better-auth, UI via shadcn/ui + Tailwind CSS, database via MongoDB native
+Next.js 16 (App Router) + React 19 + TypeScript scaffold. Authentication via
+better-auth, UI via UI SDK + Tailwind CSS 4, database via MongoDB native
 driver, analytics via PostHog.
 
 ## Commands
@@ -21,7 +20,7 @@ pnpm run typecheck    # generate route types and type-check without emitting
 pnpm run create-indexes  # create indexes for an explicitly selected NODE_ENV
 ```
 
-There is no test runner configured. Do not fabricate test commands.
+Run `pnpm test` for the agent policy tests (Node test runner with tsx).
 
 ## Repository Structure
 
@@ -36,7 +35,7 @@ app/
   globals.css        # Tailwind base + CSS custom properties
 components/
   custom/            # app-specific components
-  ui/                # shadcn/ui primitives (do not hand-edit; use CLI)
+  ui/                # styled UI SDK wrappers and layout components
 hooks/               # shared React hooks (e.g. use-mobile)
 lib/
   auth.ts            # better-auth server instance (MongoDB adapter)
@@ -75,18 +74,15 @@ proxy.ts             # Next.js proxy (replaces middleware.ts in Next 16)
   `auth.api.getSession()` server-side before serving sensitive data
 - Add new protected path prefixes to the `protectedPrefixes` array
 
-## shadcn/ui
+## UI SDK
 
-- Add components via CLI: `pnpm dlx shadcn@latest add <component>`
-- Do **not** manually edit files in `components/ui/` — regenerate via CLI
-- After adding a component, verify import paths reference `@/hooks/` and
-  `@/lib/utils` (the CLI occasionally emits `@/components/hooks/` or
-  `@/components/lib/utils` incorrectly — fix those by hand if they appear)
-- `components.json` config: style `default`, base color `neutral`, CSS
-  variables enabled, no prefix
-- Legacy default: Tailwind v3 + shadcn `default` style
-- For new apps prefer Tailwind v4 + new-york style (see pantry-iq, mail-flow)
-- NO full Tailwind v4 migration on existing scaffolds
+UI SDK supplies unstyled controls with keyboard, focus and accessibility behavior and agent-readable state. The beta postdates model training data. Read `node_modules/@ui-sdk/react/docs/llms.txt` and `node_modules/@ui-sdk/core/skills/ui-sdk/SKILL.md` before touching components, then consult the installed component page. Both packages are exact-pinned together.
+
+App code imports from `@/components/ui`. Add a wrapper there using the component entry, for example `@ui-sdk/react/menu`. Never run `shadcn add` or regenerate these wrappers, which would reintroduce Radix or Base UI. Use the existing Tailwind 4 theme, keep the UI SDK layer declaration first, and opt into global SDK styles only after checking links and overlay geometry. The SDK owns its slot names. Use separate app attributes for selectors and tests. Controlled inputs need `onValueChange`; use stable values for options and tab/panel pairs. Portal popups outside forms and check Escape and focus return.
+
+The sidebar is a layout composition. It and React Hook Form retain Radix Slot for child composition, as does Button when rendering a link. Resizable retains react-resizable-panels for split-pane sizing. Theme icons remain on Radix Icons. Card, Skeleton and Typography are presentational. The starter keeps the toast hook and renderer as adapters to the SDK queue.
+
+The root mounts `providers/agent-bridge.tsx` once. Review every new interactive control in `lib/agent-policy.ts` and add tests in `lib/agent-policy.test.ts`. Scope navigation and ordinary text edits by route and exact accessible name. Only register text fields that do not persist sensitive changes. Reads use the SDK snapshot and query tools. Unknown actions and confirmation-marked operations are denied. Mark sensitive values with `data-agent-secret` and sensitive actions with `data-agent-confirm`. Authentication, account or settings changes, payments and destructive actions require human interaction.
 
 ## Code Style
 
@@ -165,7 +161,7 @@ NEXT_PUBLIC_POSTHOG_HOST=
 
 ## PR gate
 
-`pnpm run ci` (lint + typecheck + build). GitHub Actions runs this on PRs to master.
+`pnpm run ci` (lint + tests + typecheck + build). GitHub Actions runs this on PRs to master.
 
 Index creation requires `NODE_ENV=development`, `test`, or `production` and
 loads `.env.local`; see README before running this database mutation.

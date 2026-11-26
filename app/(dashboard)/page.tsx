@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-6">
-      <p className="text-lg font-medium">
+      <p data-agent-secret className="text-lg font-medium">
         Welcome, {session!.user.name || session!.user.email}
       </p>
     </div>

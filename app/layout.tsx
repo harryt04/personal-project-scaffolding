@@ -6,10 +6,11 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import { PostHogProvider } from '@/providers/posthogProvider'
 import { ThemeProvider } from '@/providers/themeProvider'
+import { AgentBridge } from '@/providers/agent-bridge'
 
 const fontSans = FontSans({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-inter',
 })
 
 export const metadata: Metadata = {
@@ -23,12 +24,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <PostHogProvider>
         <body
           suppressHydrationWarning={true}
           className={cn(
-            'min-h-screen bg-background font-sans antialiased',
+            'bg-background min-h-screen font-sans antialiased',
             fontSans.variable,
           )}
         >
@@ -38,6 +39,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <AgentBridge />
             {children}
           </ThemeProvider>
         </body>

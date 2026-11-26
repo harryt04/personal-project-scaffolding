@@ -17,14 +17,14 @@ function LandingPage() {
           Coming soon.
           <br />
           <br />
-          <Button variant={'default'}>
+          <Button asChild variant={'default'}>
             <Link href="https://forms.gle/grPSfC6ZdT7c2UNi8">
               Join the waitlist here
             </Link>
           </Button>
           <br />
           <br />
-          <Button variant={'link'}>
+          <Button asChild variant={'link'}>
             <Link href="/login">Sign in to the free and open beta</Link>
           </Button>
         </div>
