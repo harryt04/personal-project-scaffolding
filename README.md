@@ -41,9 +41,8 @@ validation command and is not run in CI.
 
 ## shadcn/ui + Tailwind
 
-- Legacy default: Tailwind v3 + shadcn `default` style
-- For new apps prefer Tailwind v4 + new-york style (see pantry-iq, mail-flow)
-- NO full Tailwind v4 migration on existing scaffolds
+Tailwind CSS 4 theme tokens and global styles live in `app/globals.css`.
+
 
 ## Package manager
 
