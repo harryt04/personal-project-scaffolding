@@ -50,7 +50,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         render={
           asChild && React.isValidElement<{ href?: string }>(children)
             ? children.props.href !== undefined
-              ? (buttonProps) => <Slot {...{ ...buttonProps, type: undefined }}>{children}</Slot>
+              ? (buttonProps) => (
+                  <Slot {...{ ...buttonProps, type: undefined }}>
+                    {children}
+                  </Slot>
+                )
               : children
             : undefined
         }

@@ -6,6 +6,7 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import { PostHogProvider } from '@/providers/posthogProvider'
 import { ThemeProvider } from '@/providers/themeProvider'
+import { AgentBridge } from '@/providers/agent-bridge'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -28,7 +29,7 @@ export default function RootLayout({
         <body
           suppressHydrationWarning={true}
           className={cn(
-            'min-h-screen bg-background font-sans antialiased',
+            'bg-background min-h-screen font-sans antialiased',
             fontSans.variable,
           )}
         >
@@ -38,6 +39,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <AgentBridge />
             {children}
           </ThemeProvider>
         </body>

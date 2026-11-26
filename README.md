@@ -1,7 +1,7 @@
 This represents my blank slate for a new personal project, complete with my following default choices:
 
-- [shadcn/ui](https://ui.shadcn.com)
-- Next.js
+- [UI SDK](https://ui-sdk.dev)
+- Next.js 16 and React 19
 - TypeScript
 - Tailwind CSS
 - PostHog
@@ -17,7 +17,7 @@ Use Node.js 26.13.0 (`nvm use`) and the pnpm version pinned in `package.json`.
    and the local auth URL. Keep credentials in environment files, never source.
 3. Run `pnpm run dev`. Browser PostHog is optional and disabled without a public key.
 4. Run `pnpm run ci` before opening a PR: lint, generated route types and
-   TypeScript checks, then a production build. No test runner is configured.
+   TypeScript checks, agent policy tests and a production build.
 
 The unused `lib/posthog-server.ts` helper still requires a key in production;
 configure it before adding server analytics callers.
@@ -39,9 +39,9 @@ project. Rename the database prefix consistently in `lib/auth.ts` and
 `lib/mongo-client.ts`. Index creation changes the selected database; it is not a
 validation command and is not run in CI.
 
-## shadcn/ui + Tailwind
+## UI SDK and Tailwind
 
-Tailwind CSS 4 theme tokens and global styles live in `app/globals.css`.
+Tailwind CSS 4 theme tokens and global styles live in `app/globals.css`. Import styled components from `components/ui`. See the [UI SDK conventions](AGENTS.md#ui-sdk) before adding controls or extending WebMCP permissions.
 
 
 ## Package manager

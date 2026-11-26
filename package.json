@@ -13,8 +13,9 @@
     "lint": "eslint .",
     "create-indexes": "node --env-file=.env.local --import tsx scripts/create-indexes.ts",
     "prettify": "prettier --write .",
-    "ci": "pnpm run lint && pnpm run typecheck && pnpm run build",
-    "typecheck": "next typegen && tsc --noEmit"
+    "ci": "pnpm run lint && pnpm run test && pnpm run typecheck && pnpm run build",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --import tsx --test lib/*.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -48,7 +49,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "postcss": "^8",
-    "prettier": "^3.3.3",
+    "prettier": "^3.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.5",
     "tsx": "^4",

@@ -57,7 +57,12 @@ function LoginCard() {
         {isSignUp ? 'Create an account' : 'Sign in'}
       </h1>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form
+        data-agent-secret
+        data-agent-confirm="Authentication"
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4"
+      >
         {isSignUp && (
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="name">Name</Label>
@@ -96,18 +101,18 @@ function LoginCard() {
           />
         </div>
 
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {error && <p className="text-destructive text-sm">{error}</p>}
 
         <Button type="submit" disabled={loading}>
           {loading ? 'Loading…' : isSignUp ? 'Create account' : 'Sign in'}
         </Button>
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
         <button
           type="button"
-          className="underline underline-offset-4 hover:text-foreground"
+          className="hover:text-foreground underline underline-offset-4"
           onClick={() => {
             setError(null)
             setIsSignUp(!isSignUp)
