@@ -110,16 +110,17 @@ function LoginCard() {
 
       <p className="text-muted-foreground text-center text-sm">
         {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
-        <button
+        <Button
           type="button"
-          className="hover:text-foreground underline underline-offset-4"
+          variant="link"
+          className="h-auto p-0 align-baseline font-normal text-muted-foreground underline hover:text-foreground"
           onClick={() => {
             setError(null)
             setIsSignUp(!isSignUp)
           }}
         >
           {isSignUp ? 'Sign in' : 'Sign up'}
-        </button>
+        </Button>
       </p>
     </Card>
   )

@@ -1,9 +1,9 @@
 'use client'
-import { Slot } from '@radix-ui/react-slot'
 import * as React from 'react'
 import { Button as ButtonPart } from '@ui-sdk/react/button'
 import { cva, type VariantProps } from 'class-variance-authority'
 
+import { Slot } from '@/components/ui/slot'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(

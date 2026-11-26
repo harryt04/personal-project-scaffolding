@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
+import { Button as ButtonPart } from '@ui-sdk/react/button'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { PanelLeft } from 'lucide-react'
 
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { Slot } from '@/components/ui/slot'
 import {
   Sheet,
   SheetContent,
@@ -24,6 +25,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+
+// UI SDK's Button part hands click handlers any element, since `render` can
+// make it a link.
+type SidebarButtonProps = Omit<React.ComponentProps<'button'>, 'onClick'> & {
+  onClick?: React.MouseEventHandler<HTMLElement>
+}
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -305,14 +312,16 @@ SidebarTrigger.displayName = 'SidebarTrigger'
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<'button'>
+  SidebarButtonProps
 >(({ className, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
 
+  // A pointer-only duplicate of SidebarTrigger, hidden so agents see one.
   return (
-    <button
+    <ButtonPart
       ref={ref}
       data-sidebar="rail"
+      data-agent-hidden
       aria-label="Toggle Sidebar"
       tabIndex={-1}
       onClick={toggleSidebar}
@@ -469,9 +478,9 @@ SidebarGroupLabel.displayName = 'SidebarGroupLabel'
 
 const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<'button'> & { asChild?: boolean }
+  SidebarButtonProps & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button'
+  const Comp = asChild ? Slot : ButtonPart
 
   return (
     <Comp
@@ -553,7 +562,7 @@ const sidebarMenuButtonVariants = cva(
 
 const SidebarMenuButton = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<'button'> & {
+  SidebarButtonProps & {
     asChild?: boolean
     isActive?: boolean
     tooltip?: string | React.ComponentProps<typeof TooltipContent>
@@ -571,7 +580,7 @@ const SidebarMenuButton = React.forwardRef<
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : 'button'
+    const Comp = asChild ? Slot : ButtonPart
     const { isMobile, state } = useSidebar()
 
     const button = (
@@ -612,12 +621,12 @@ SidebarMenuButton.displayName = 'SidebarMenuButton'
 
 const SidebarMenuAction = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<'button'> & {
+  SidebarButtonProps & {
     asChild?: boolean
     showOnHover?: boolean
   }
 >(({ className, asChild = false, showOnHover = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button'
+  const Comp = asChild ? Slot : ButtonPart
 
   return (
     <Comp
