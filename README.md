@@ -3,7 +3,7 @@ This represents my blank slate for a new personal project, complete with my foll
 - [UI SDK](https://ui-sdk.dev)
 - Next.js 16 and React 19
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS 4
 - PostHog
 - BetterAuth
 - MongoDB
@@ -41,8 +41,17 @@ validation command and is not run in CI.
 
 ## UI SDK and Tailwind
 
-Tailwind CSS 4 theme tokens and global styles live in `app/globals.css`. Import styled components from `components/ui`. See the [UI SDK conventions](AGENTS.md#ui-sdk) before adding controls or extending WebMCP permissions.
+Interactive components wrap [UI SDK](https://ui-sdk.dev) (`@ui-sdk/react` and
+`@ui-sdk/core`, exact-pinned together) with shadcn/ui styling. No Radix UI or
+Base UI is installed. Tailwind CSS 4 theme tokens and global styles live in
+`app/globals.css`; icons come from `lucide-react`. Import styled components
+from `components/ui`, and write new interactive wrappers by hand rather than
+with `shadcn add`.
 
+The root layout mounts a UI SDK agent bridge so a browser agent can read the
+page and use the controls `lib/agent-policy.ts` allows; everything else is
+denied. Read the [UI SDK conventions](AGENTS.md#ui-sdk) before adding controls
+or extending the policy.
 
 ## Package manager
 
